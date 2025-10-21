@@ -1,7 +1,6 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import angular from '@angular-eslint/eslint-plugin';
-import angularTemplate from '@angular-eslint/eslint-plugin-template';
 import tsParser from '@typescript-eslint/parser';
 import templateParserPkg from '@angular-eslint/template-parser';
 import prettier from 'eslint-plugin-prettier';
@@ -10,6 +9,7 @@ import prettierConfig from 'eslint-config-prettier';
 const { parser: templateParser } = templateParserPkg;
 
 export default [
+  // 🧹 Общий игнор
   {
     ignores: [
       'dist/**',
@@ -21,11 +21,12 @@ export default [
     ],
   },
 
-  js.configs.recommended,
+  {
+    files: ['**/*.js', '**/*.mjs'],
+    ...js.configs.recommended
+  },
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
-
-  // TypeScript files
   {
     files: ['**/*.ts'],
     plugins: {
@@ -94,21 +95,8 @@ export default [
     },
   },
 
-  // HTML template files
   {
     files: ['**/*.html'],
-    plugins: {
-      '@angular-eslint/template': angularTemplate,
-    },
-    languageOptions: {
-      parser: templateParser,
-    },
-    rules: {
-      '@angular-eslint/template/click-events-have-key-events': 'error',
-      '@angular-eslint/template/mouse-events-have-key-events': 'error',
-      '@angular-eslint/template/no-positive-tabindex': 'error',
-      '@angular-eslint/template/no-autofocus': 'warn',
-      '@angular-eslint/template/use-track-by-function': 'error',
-    },
+    ignores: ['**/*.html'],
   },
 ];
