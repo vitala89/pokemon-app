@@ -1,0 +1,124 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app__header {
+  background-color: #dc2626;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+.app__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.app__logo:hover {
+  opacity: 0.9;
+}
+
+.app__logo-icon {
+  font-size: 2rem;
+}
+
+.app__menu {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.app__menu-item {
+  margin: 0;
+}
+
+.app__menu-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.app__menu-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.app__menu-link--active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.app__main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.app__footer {
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.app__footer-text {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.app__footer-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.app__footer-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .app__nav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .app__menu {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .app__logo-text {
+    display: none;
+  }
+
+  .app__main {
+    padding: 1rem;
+  }
+}

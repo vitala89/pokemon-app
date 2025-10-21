@@ -1,1 +1,48 @@
-<div>Test</div>
+<div class="app">
+  <header class="app__header">
+    <nav class="app__nav">
+      <a [routerLink]="routes.HOME" class="app__logo">
+        <span class="app__logo-icon">⚡</span>
+        <span class="app__logo-text">Pokemon</span>
+      </a>
+
+      <ul class="app__menu">
+        <li class="app__menu-item">
+          <a
+            [routerLink]="routes.POKEMON_LIST"
+            routerLinkActive="app__menu-link--active"
+            class="app__menu-link"
+            [routerLinkActiveOptions]="{ exact: false }"
+          >
+            All Pokemon
+          </a>
+        </li>
+        <li class="app__menu-item">
+          <a
+            [routerLink]="routes.RANDOM"
+            routerLinkActive="app__menu-link--active"
+            class="app__menu-link"
+          >
+            Random
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="app__main">
+    <router-outlet />
+  </main>
+
+  <footer class="app__footer">
+    <p class="app__footer-text">
+      <a
+        href="https://pokeapi.co"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="app__footer-link"
+        >PokeAPI</a
+      >
+    </p>
+  </footer>
+</div>
