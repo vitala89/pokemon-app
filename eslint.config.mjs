@@ -1,0 +1,114 @@
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from '@angular-eslint/eslint-plugin';
+import angularTemplate from '@angular-eslint/eslint-plugin-template';
+import tsParser from '@typescript-eslint/parser';
+import templateParserPkg from '@angular-eslint/template-parser';
+import prettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
+
+const { parser: templateParser } = templateParserPkg;
+
+export default [
+  {
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      '.angular/**',
+      'coverage/**',
+      '**/*.js',
+      '**/*.mjs'
+    ],
+  },
+
+  js.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
+
+  // TypeScript files
+  {
+    files: ['**/*.ts'],
+    plugins: {
+      '@angular-eslint': angular,
+      '@typescript-eslint': tseslint.plugin,
+      prettier: prettier,
+    },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: './tsconfig.eslint.json',
+        tsconfigRootDir: import.meta.dirname,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      // Prettier
+      ...prettierConfig.rules,
+      'prettier/prettier': 'error',
+
+      // Angular
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
+      ],
+      '@angular-eslint/component-class-suffix': 'error',
+      '@angular-eslint/directive-class-suffix': 'error',
+      '@angular-eslint/no-input-rename': 'error',
+      '@angular-eslint/no-output-on-prefix': 'error',
+      '@angular-eslint/use-lifecycle-interface': 'error',
+
+      // TypeScript
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        { selector: 'default', format: ['camelCase'], leadingUnderscore: 'allow', trailingUnderscore: 'allow' },
+        { selector: 'variable', format: ['camelCase', 'UPPER_CASE'], leadingUnderscore: 'allow' },
+        { selector: 'typeLike', format: ['PascalCase'] },
+        { selector: 'enumMember', format: ['PascalCase', 'UPPER_CASE'] },
+      ],
+
+      // General
+      'max-len': [
+        'error',
+        {
+          code: 120,
+          ignoreComments: true,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+        },
+      ],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'prefer-const': 'error',
+      'no-var': 'error',
+    },
+  },
+
+  // HTML template files
+  {
+    files: ['**/*.html'],
+    plugins: {
+      '@angular-eslint/template': angularTemplate,
+    },
+    languageOptions: {
+      parser: templateParser,
+    },
+    rules: {
+      '@angular-eslint/template/click-events-have-key-events': 'error',
+      '@angular-eslint/template/mouse-events-have-key-events': 'error',
+      '@angular-eslint/template/no-positive-tabindex': 'error',
+      '@angular-eslint/template/no-autofocus': 'warn',
+      '@angular-eslint/template/use-track-by-function': 'error',
+    },
+  },
+];
