@@ -10,7 +10,20 @@
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\""
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\"",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
+      "prettier --write"
+    ],
+    "*.css": [
+      "prettier --write"
+    ]
   },
   "prettier": {
     "printWidth": 100,
