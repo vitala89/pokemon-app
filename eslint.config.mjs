@@ -6,10 +6,10 @@ import templateParserPkg from '@angular-eslint/template-parser';
 import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
-const { parser: templateParser } = templateParserPkg;
+const {parser: templateParser} = templateParserPkg;
 
 export default [
-  // 🧹 Общий игнор
+  // Commonly ignores
   {
     ignores: [
       'dist/**',
@@ -51,11 +51,11 @@ export default [
       // Angular
       '@angular-eslint/directive-selector': [
         'error',
-        { type: 'attribute', prefix: 'app', style: 'camelCase' },
+        {type: 'attribute', prefix: 'app', style: 'camelCase'},
       ],
       '@angular-eslint/component-selector': [
         'error',
-        { type: 'element', prefix: 'app', style: 'kebab-case' },
+        {type: 'element', prefix: 'app', style: 'kebab-case'},
       ],
       '@angular-eslint/component-class-suffix': 'error',
       '@angular-eslint/directive-class-suffix': 'error',
@@ -69,14 +69,14 @@ export default [
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+        {argsIgnorePattern: '^_', varsIgnorePattern: '^_'},
       ],
       '@typescript-eslint/naming-convention': [
         'error',
-        { selector: 'default', format: ['camelCase'], leadingUnderscore: 'allow', trailingUnderscore: 'allow' },
-        { selector: 'variable', format: ['camelCase', 'UPPER_CASE'], leadingUnderscore: 'allow' },
-        { selector: 'typeLike', format: ['PascalCase'] },
-        { selector: 'enumMember', format: ['PascalCase', 'UPPER_CASE'] },
+        {selector: 'default', format: ['camelCase'], leadingUnderscore: 'allow', trailingUnderscore: 'allow'},
+        {selector: 'variable', format: ['camelCase', 'UPPER_CASE'], leadingUnderscore: 'allow'},
+        {selector: 'typeLike', format: ['PascalCase']},
+        {selector: 'enumMember', format: ['PascalCase', 'UPPER_CASE']},
       ],
 
       // General
@@ -89,10 +89,26 @@ export default [
           ignoreTemplateLiterals: true,
         },
       ],
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-console': ['warn', {allow: ['warn', 'error']}],
       'prefer-const': 'error',
       'no-var': 'error',
     },
+  },
+
+  // Allow snake_case and hyphens in API models
+  {
+    files: ['src/app/core/models/**/*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': 'off'
+    }
+  },
+
+// Allow snake_case and hyphens in API constants
+  {
+    files: ['src/app/core/constants/**/*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': 'off'
+    }
   },
 
   {
