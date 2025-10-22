@@ -1,28 +1,28 @@
-@use '../../../../styles/variables';
+@use 'variables' as v;
 
 .loading-spinner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: variables.$spacing-md;
-  padding: variables.$spacing-lg;
+  gap: v.$spacing-md;
+  padding: v.$spacing-lg;
 
   /* Spinner Circle */
   &__circle {
-    border-radius: variables.$radius-full;
+    border-radius: v.$radius-full;
     border-style: solid;
-    border-color: variables.$color-gray-200;
-    border-top-color: variables.$color-primary;
+    border-color: v.$color-gray-200;
+    border-top-color: v.$color-primary;
     animation: loading-spinner-rotate 0.8s linear infinite;
   }
 
   /* Message */
   &__message {
     margin: 0;
-    font-size: variables.$font-size-sm;
-    font-weight: variables.$font-weight-medium;
-    color: variables.$color-gray-600;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-gray-600;
     text-align: center;
   }
 
@@ -35,7 +35,7 @@
     }
 
     .loading-spinner__message {
-      font-size: variables.$font-size-xs;
+      font-size: v.$font-size-xs;
     }
   }
 
@@ -55,7 +55,7 @@
     }
 
     .loading-spinner__message {
-      font-size: variables.$font-size-base;
+      font-size: v.$font-size-base;
     }
   }
 
@@ -67,7 +67,7 @@
     right: 0;
     bottom: 0;
     background-color: rgba(255, 255, 255, 0.9);
-    z-index: variables.$z-index-modal;
+    z-index: v.$z-index-modal;
     min-height: 100vh;
   }
 }

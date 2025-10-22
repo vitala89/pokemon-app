@@ -1,0 +1,88 @@
+<div class="error-message" role="alert" aria-live="assertive">
+  <div class="error-message__container">
+    <!-- Error Icon -->
+    <div class="error-message__icon">
+      <svg
+        class="error-message__icon-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+
+    <!-- Error Content -->
+    <div class="error-message__content">
+      <h3 class="error-message__title">{{ title() }}</h3>
+      <p class="error-message__text">{{ message() }}</p>
+
+      <!-- Actions -->
+      <div class="error-message__actions">
+        @if (showRetry()) {
+          <button
+            type="button"
+            class="error-message__button error-message__button--primary"
+            (click)="onRetry()"
+            aria-label="Retry loading data"
+          >
+            <svg
+              class="error-message__button-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+            {{ retryText() }}
+          </button>
+        }
+
+        @if (showClose()) {
+          <button
+            type="button"
+            class="error-message__button error-message__button--secondary"
+            (click)="onClose()"
+            aria-label="Close error message"
+          >
+            Close
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Close Icon Button (top-right) -->
+    @if (showClose()) {
+      <button
+        type="button"
+        class="error-message__close"
+        (click)="onClose()"
+        aria-label="Dismiss error"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    }
+  </div>
+</div>

@@ -1,0 +1,199 @@
+@use 'variables' as v;
+
+.error-message {
+  width: 100%;
+  padding: v.$spacing-md;
+  animation: error-message-slide-in 0.3s ease-out;
+
+  &__container {
+    position: relative;
+    display: flex;
+    gap: v.$spacing-md;
+    padding: v.$spacing-lg;
+    background-color: v.$color-error-bg;
+    border: 1px solid v.$color-error-border;
+    border-radius: v.$radius-lg;
+    box-shadow: v.$shadow-sm;
+  }
+
+  /* Icon */
+  &__icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: v.$color-error-light;
+    border-radius: v.$radius-full;
+    color: v.$color-error-dark;
+
+    &-svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  /* Content */
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 v.$spacing-xs;
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-error-text;
+    line-height: v.$line-height-tight;
+  }
+
+  &__text {
+    margin: 0 0 v.$spacing-md;
+    font-size: v.$font-size-sm;
+    color: v.$color-error-text;
+    line-height: v.$line-height-normal;
+  }
+
+  /* Actions */
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$spacing-sm;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$spacing-xs;
+    padding: v.$spacing-sm v.$spacing-md;
+    border: none;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    &:focus-visible {
+      outline: 2px solid v.$color-secondary;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--primary {
+      background-color: v.$color-primary;
+      color: v.$color-white;
+
+      &:hover:not(:disabled) {
+        background-color: v.$color-primary-dark;
+        transform: translateY(-1px);
+        box-shadow: v.$shadow-md;
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+    }
+
+    &--secondary {
+      background-color: v.$color-white;
+      color: v.$color-primary;
+      border: 1px solid v.$color-error-border;
+
+      &:hover:not(:disabled) {
+        background-color: v.$color-error-bg;
+        border-color: v.$color-error;
+      }
+    }
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* Close Button */
+  &__close {
+    position: absolute;
+    top: v.$spacing-md;
+    right: v.$spacing-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: v.$radius-md;
+    color: v.$color-error-text;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background-color: v.$color-error-light;
+    }
+
+    &:focus-visible {
+      outline: 2px solid v.$color-secondary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: v.$breakpoint-sm - 1) {
+  .error-message__container {
+    flex-direction: column;
+    padding: v.$spacing-md;
+  }
+
+  .error-message__icon {
+    width: 40px;
+    height: 40px;
+
+    &-svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .error-message__title {
+    font-size: v.$font-size-base;
+  }
+
+  .error-message__text {
+    font-size: v.$font-size-xs;
+  }
+
+  .error-message__actions {
+    flex-direction: column;
+  }
+
+  .error-message__button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Animation */
+@keyframes error-message-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
