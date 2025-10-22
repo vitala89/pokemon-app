@@ -1,8 +1,8 @@
 /* Import SCSS modules */
-@use './styles/variables';
-@use './styles/mixins';
-@use './styles/utilities';
-@use './styles/typography';
+@use './variables';
+@use './mixins';
+@use './utilities';
+@use './typography';
 
 /* CSS Reset & Base Styles */
 *,

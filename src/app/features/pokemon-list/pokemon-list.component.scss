@@ -1,0 +1,17 @@
+@use '../../../styles/variables';
+
+.pokemon-list {
+  padding: 2rem;
+}
+
+.demo-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: variables.$color-gray-50;
+  border-radius: variables.$radius-lg;
+
+  h3 {
+    margin-bottom: 1rem;
+    color: variables.$color-gray-700;
+  }
+}
