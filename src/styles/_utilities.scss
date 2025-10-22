@@ -1,0 +1,172 @@
+/* Display utilities */
+.u-hidden {
+  display: none !important;
+}
+.u-block {
+  display: block !important;
+}
+.u-inline-block {
+  display: inline-block !important;
+}
+.u-flex {
+  display: flex !important;
+}
+.u-inline-flex {
+  display: inline-flex !important;
+}
+
+/* Flexbox utilities */
+.u-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.u-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.u-flex-column {
+  flex-direction: column;
+}
+.u-flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* Text alignment */
+.u-text-center {
+  text-align: center !important;
+}
+.u-text-left {
+  text-align: left !important;
+}
+.u-text-right {
+  text-align: right !important;
+}
+
+/* Text transform */
+.u-text-uppercase {
+  text-transform: uppercase !important;
+}
+.u-text-capitalize {
+  text-transform: capitalize !important;
+}
+
+/* Font weight (SCSS variables) */
+.u-font-normal {
+  font-weight: $font-weight-normal !important;
+}
+.u-font-medium {
+  font-weight: $font-weight-medium !important;
+}
+.u-font-semibold {
+  font-weight: $font-weight-semibold !important;
+}
+.u-font-bold {
+  font-weight: $font-weight-bold !important;
+}
+
+/* Spacing utilities */
+.u-mt-0 {
+  margin-top: 0 !important;
+}
+.u-mt-sm {
+  margin-top: $spacing-sm !important;
+}
+.u-mt-md {
+  margin-top: $spacing-md !important;
+}
+.u-mt-lg {
+  margin-top: $spacing-lg !important;
+}
+
+.u-mb-0 {
+  margin-bottom: 0 !important;
+}
+.u-mb-sm {
+  margin-bottom: $spacing-sm !important;
+}
+.u-mb-md {
+  margin-bottom: $spacing-md !important;
+}
+.u-mb-lg {
+  margin-bottom: $spacing-lg !important;
+}
+
+.u-p-0 {
+  padding: 0 !important;
+}
+.u-p-sm {
+  padding: $spacing-sm !important;
+}
+.u-p-md {
+  padding: $spacing-md !important;
+}
+.u-p-lg {
+  padding: $spacing-lg !important;
+}
+
+/* Width & Height utilities */
+.u-w-full {
+  width: 100% !important;
+}
+.u-w-auto {
+  width: auto !important;
+}
+.u-h-full {
+  height: 100% !important;
+}
+.u-h-auto {
+  height: auto !important;
+}
+
+/* Overflow */
+.u-overflow-hidden {
+  overflow: hidden !important;
+}
+.u-overflow-auto {
+  overflow: auto !important;
+}
+
+/* Cursor */
+.u-cursor-pointer {
+  cursor: pointer !important;
+}
+.u-cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+/* Visibility */
+.u-invisible {
+  visibility: hidden !important;
+}
+.u-visible {
+  visibility: visible !important;
+}
+
+/* Responsive */
+@media (max-width: $breakpoint-sm - 1) {
+  .u-hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: $breakpoint-sm) {
+  .u-hide-desktop {
+    display: none !important;
+  }
+}
+
+/* State: loading / disabled */
+.u-loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.u-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}

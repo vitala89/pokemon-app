@@ -1,0 +1,61 @@
+/* Responsive Breakpoints */
+@mixin sm {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+/* Truncate text with ellipsis */
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Aspect Ratio Containers */
+@mixin aspect-ratio-square {
+  aspect-ratio: 1 / 1;
+}
+
+@mixin aspect-ratio-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Focus outline for accessibility */
+@mixin focus-outline($color: $color-secondary) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+/* Screen reader only (visually hidden) */
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Disable text selection */
+no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

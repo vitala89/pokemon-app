@@ -1,0 +1,101 @@
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-gray-900;
+}
+
+h1 {
+  font-size: $font-size-4xl;
+  margin-bottom: $spacing-lg;
+}
+
+h2 {
+  font-size: $font-size-3xl;
+  margin-bottom: $spacing-md;
+}
+
+h3 {
+  font-size: $font-size-2xl;
+  margin-bottom: $spacing-md;
+}
+
+h4 {
+  font-size: $font-size-xl;
+  margin-bottom: $spacing-sm;
+}
+
+h5 {
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-sm;
+}
+
+h6 {
+  font-size: $font-size-base;
+  margin-bottom: $spacing-sm;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 $spacing-md;
+  line-height: $line-height-normal;
+}
+
+/* Links */
+a {
+  color: $color-secondary;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-secondary-dark;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-secondary;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
+  }
+}
+
+/* Bold text */
+strong,
+b {
+  font-weight: $font-weight-bold;
+}
+
+/* Small text */
+small {
+  font-size: $font-size-sm;
+}
+
+/* Inline code */
+code {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+  padding: 0.125rem 0.25rem;
+  background-color: $color-gray-100;
+  border-radius: $radius-sm;
+}
+
+/* Responsive typography */
+@media (max-width: $breakpoint-sm - 1) {
+  h1 {
+    font-size: $font-size-3xl;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+  }
+
+  h3 {
+    font-size: $font-size-xl;
+  }
+}
