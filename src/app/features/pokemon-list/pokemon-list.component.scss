@@ -1,17 +1,40 @@
 @use 'variables' as v;
 
 .pokemon-list {
-  padding: v.$spacing-xl;
+  padding: 2rem;
 }
 
 .demo-section {
-  margin-bottom: v.$spacing-3xl;
-  padding: v.$spacing-xl;
+  margin-bottom: 3rem;
+  padding: 2rem;
   background-color: v.$color-gray-50;
   border-radius: v.$radius-lg;
 
   h3 {
-    margin-bottom: v.$spacing-md;
+    margin-bottom: 1.5rem;
     color: v.$color-gray-700;
+    font-size: v.$font-size-xl;
+  }
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: v.$spacing-lg;
+  margin-top: v.$spacing-lg;
+}
+
+@media (max-width: v.$breakpoint-sm) {
+  .pokemon-list {
+    padding: 1rem;
+  }
+
+  .demo-section {
+    padding: 1rem;
+  }
+
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: v.$spacing-md;
   }
 }

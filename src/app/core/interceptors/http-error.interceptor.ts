@@ -18,7 +18,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         // Handle specific HTTP errors
         switch (error.status) {
           case 404:
-            errorMessage = 'Resource not found. The Pokémon you are looking for does not exist.';
+            errorMessage = 'Resource not found. The Pokemon you are looking for does not exist.';
             break;
           case 500:
             errorMessage = 'Internal server error. Please try again later.';

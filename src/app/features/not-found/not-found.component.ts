@@ -11,8 +11,8 @@ import { ROUTE_PATHS } from '@app/core';
       <div class="not-found__content">
         <h1 class="not-found__title">404</h1>
         <p class="not-found__message">Oops! This page doesn't exist.</p>
-        <p class="not-found__submessage">The Pokémon you're looking for might have fled!</p>
-        <a [routerLink]="routes.HOME" class="not-found__link">Go back to Pokédex</a>
+        <p class="not-found__submessage">The Pokemon you're looking for might have fled!</p>
+        <a [routerLink]="routes.HOME" class="not-found__link">Go back to Pokedex</a>
       </div>
     </div>
   `,

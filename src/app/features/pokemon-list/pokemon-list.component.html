@@ -1,20 +1,30 @@
 <div class="pokemon-list">
-  <h1>Pokémon List</h1>
+  <h1>Pokemon List</h1>
+
+  <!-- Pokemon Cards Demo -->
+  <div class="demo-section">
+    <h3>Pokemon Cards</h3>
+    <div class="pokemon-grid">
+      @for (pokemon of mockPokemon; track pokemon.id) {
+        <app-pokemon-card [pokemon]="pokemon" (cardClick)="handleCardClick($event)" />
+      }
+    </div>
+  </div>
+
+  <!-- Loading Pokemon Cards -->
+  <div class="demo-section">
+    <h3>Pokemon Cards - Loading State</h3>
+    <div class="pokemon-grid">
+      @for (item of [1, 2, 3]; track item) {
+        <app-pokemon-card [pokemon]="loadingPokemon" [loading]="true" />
+      }
+    </div>
+  </div>
 
   <!-- Loading Spinner Demo -->
   <div class="demo-section">
-    <h3>Loading Spinner - Small</h3>
-    <app-loading-spinner size="small" message="Loading small..." />
-  </div>
-
-  <div class="demo-section">
     <h3>Loading Spinner - Medium (Default)</h3>
     <app-loading-spinner message="Loading Pokemon..." />
-  </div>
-
-  <div class="demo-section">
-    <h3>Loading Spinner - Large</h3>
-    <app-loading-spinner size="large" message="Fetching data..." />
   </div>
 
   <!-- Error Message Demo -->
@@ -24,28 +34,6 @@
       title="Failed to Load Pokemon"
       message="Unable to fetch Pokemon data. Please check your internet connection and try again."
       (retry)="handleRetry()"
-    />
-  </div>
-
-  <div class="demo-section">
-    <h3>Error Message - With Close</h3>
-    <app-error-message
-      title="Network Error"
-      message="Could not connect to the server."
-      [showRetry]="true"
-      [showClose]="true"
-      retryText="Reload"
-      (retry)="handleRetry()"
-      (close)="handleClose()"
-    />
-  </div>
-
-  <div class="demo-section">
-    <h3>Error Message - No Actions</h3>
-    <app-error-message
-      title="Information"
-      message="This is an informational error message."
-      [showRetry]="false"
     />
   </div>
 </div>
