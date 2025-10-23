@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
   LoadingSpinnerComponent,
+  ScrollToTopComponent,
   ErrorMessageComponent,
   PokemonCardComponent,
-  ScrollToTopComponent,
-} from '@app/shared';
-import { InfiniteScrollDirective } from '@app/shared';
+} from '@app/shared/components';
+import { InfiniteScrollDirective } from '@app/shared/directives';
 import { PokemonApiService } from '@app/core';
 import { PokemonCard } from '@app/core';
 import { ROUTE_PATHS } from '@app/core';

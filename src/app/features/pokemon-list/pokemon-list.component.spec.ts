@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PokemonListComponent } from './pokemon-list.component';
 import { PokemonApiService } from '@app/core';
@@ -6,6 +7,18 @@ import { of, throwError } from 'rxjs';
 import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { PokemonCard } from '@app/core';
+import { PokemonCardComponent } from '@app/shared';
+import { NgOptimizedImage } from '@angular/common';
+
+@Directive({
+  selector: 'img[ngSrc]', // eslint-disable-line @angular-eslint/directive-selector
+  standalone: true,
+})
+class MockNgOptimizedImageDirective {
+  @Input() ngSrc = '';
+  @Input() priority?: boolean;
+  @Input() fill?: boolean;
+}
 
 describe('PokemonListComponent', () => {
   let component: PokemonListComponent;
@@ -26,6 +39,11 @@ describe('PokemonListComponent', () => {
     ]);
     mockRouter = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
+    TestBed.overrideComponent(PokemonCardComponent, {
+      remove: { imports: [NgOptimizedImage] },
+      add: { imports: [MockNgOptimizedImageDirective] },
+    });
+
     await TestBed.configureTestingModule({
       imports: [PokemonListComponent],
       providers: [
@@ -33,6 +51,7 @@ describe('PokemonListComponent', () => {
         { provide: PokemonApiService, useValue: mockPokemonService },
         { provide: Router, useValue: mockRouter },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PokemonListComponent);
