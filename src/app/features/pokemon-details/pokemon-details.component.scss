@@ -1,10 +1,6 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-/* ============================================
-   Pokemon Details Component (BEM)
-   ============================================ */
-
 .pokemon-details {
   width: 100%;
   max-width: 900px;
