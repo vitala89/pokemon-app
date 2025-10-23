@@ -4,13 +4,14 @@
     <h1 class="pokemon-list__title">Pokemon List</h1>
     <p class="pokemon-list__subtitle">Discover all Pokemon from generations 1-9</p>
 
-    <!-- Infinite Scroll Toggle -->
+    <!-- Controls -->
     <div class="pokemon-list__controls">
       <button
         type="button"
         class="pokemon-list__toggle"
         (click)="toggleInfiniteScroll()"
         [class.pokemon-list__toggle--active]="useInfiniteScroll()"
+        aria-label="Toggle infinite scroll"
       >
         <span class="pokemon-list__toggle-icon">
           @if (useInfiniteScroll()) {
@@ -27,7 +28,56 @@
         </span>
         <span>Infinite Scroll</span>
       </button>
+
+      <button
+        type="button"
+        class="pokemon-list__toggle"
+        (click)="toggleView()"
+        [class.pokemon-list__toggle--active]="gridView() === 'list'"
+        aria-label="Toggle view mode"
+      >
+        @if (gridView() === 'grid') {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        } @else {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+        }
+        <span>{{ gridView() === 'grid' ? 'Grid' : 'List' }}</span>
+      </button>
     </div>
+
+    <!-- Progress Bar -->
+    @if (pokemonList().length > 0) {
+      <div class="pokemon-list__progress">
+        <div class="pokemon-list__progress-bar">
+          <div class="pokemon-list__progress-fill" [style.width.%]="loadedPercentage()"></div>
+        </div>
+        <p class="pokemon-list__progress-text">{{ loadedPercentage() }}% loaded</p>
+      </div>
+    }
   </header>
 
   <!-- Loading State (Initial) -->
@@ -48,17 +98,20 @@
     </div>
   }
 
-  <!-- Pokemon Grid -->
+  <!-- Pokemon Grid/List -->
   @if (pokemonList().length > 0) {
     <div
-      class="pokemon-list__grid"
+      class="pokemon-list__container"
+      [class.pokemon-list__container--list]="gridView() === 'list'"
       appInfiniteScroll
       [enabled]="useInfiniteScroll() && canLoadMore()"
       [threshold]="400"
       (scrolled)="onScrolled()"
     >
       @for (pokemon of pokemonList(); track trackByPokemonId($index, pokemon)) {
-        <app-pokemon-card [pokemon]="pokemon" (cardClick)="viewPokemonDetails($event)" />
+        <div class="pokemon-list__item" [style.animation-delay.ms]="($index % 20) * 50">
+          <app-pokemon-card [pokemon]="pokemon" (cardClick)="viewPokemonDetails($event)" />
+        </div>
       }
     </div>
 
@@ -90,7 +143,11 @@
     <!-- End Message -->
     @if (!hasMore() && !isLoading()) {
       <div class="pokemon-list__end-message">
-        <p>You've seen all Pokemon! 🎉</p>
+        <div class="pokemon-list__end-content">
+          <span class="pokemon-list__end-icon">🎉</span>
+          <p class="pokemon-list__end-text">You've seen all Pokemon!</p>
+          <p class="pokemon-list__end-subtext">That's all {{ totalPokemon }} of them</p>
+        </div>
       </div>
     }
 
@@ -115,4 +172,7 @@
       </div>
     </div>
   }
+
+  <!-- Scroll to Top -->
+  <app-scroll-to-top />
 </div>

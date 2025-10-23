@@ -1,7 +1,12 @@
 import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LoadingSpinnerComponent, ErrorMessageComponent, PokemonCardComponent } from '@app/shared';
+import {
+  LoadingSpinnerComponent,
+  ErrorMessageComponent,
+  PokemonCardComponent,
+  ScrollToTopComponent,
+} from '@app/shared';
 import { InfiniteScrollDirective } from '@app/shared';
 import { PokemonApiService } from '@app/core';
 import { PokemonCard } from '@app/core';
@@ -15,6 +20,7 @@ import { ROUTE_PATHS } from '@app/core';
     LoadingSpinnerComponent,
     ErrorMessageComponent,
     PokemonCardComponent,
+    ScrollToTopComponent,
     InfiniteScrollDirective,
   ],
   templateUrl: './pokemon-list.component.html',
@@ -29,7 +35,9 @@ export class PokemonListComponent implements OnInit {
   error = signal<string | null>(null);
   currentPage = signal<number>(0);
   hasMore = signal<boolean>(true);
+
   useInfiniteScroll = signal<boolean>(true);
+  gridView = signal<'grid' | 'list'>('grid');
 
   isEmpty = computed(() => this.pokemonList().length === 0 && !this.isLoading() && !this.error());
   showLoadMore = computed(
@@ -40,6 +48,9 @@ export class PokemonListComponent implements OnInit {
       !this.useInfiniteScroll(),
   );
   canLoadMore = computed(() => !this.isLoading() && this.hasMore());
+  loadedPercentage = computed(() =>
+    Math.round((this.pokemonList().length / this.totalPokemon) * 100),
+  );
 
   readonly itemsPerPage = 20;
   readonly totalPokemon = 1025;
@@ -96,6 +107,10 @@ export class PokemonListComponent implements OnInit {
 
   toggleInfiniteScroll(): void {
     this.useInfiniteScroll.update((value) => !value);
+  }
+
+  toggleView(): void {
+    this.gridView.update((view) => (view === 'grid' ? 'list' : 'grid'));
   }
 
   trackByPokemonId(index: number, pokemon: PokemonCard): number {

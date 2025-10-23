@@ -1,0 +1,68 @@
+@use '../../../../styles/variables' as v;
+
+.scroll-to-top {
+  position: fixed;
+  bottom: v.$spacing-xl;
+  right: v.$spacing-xl;
+  z-index: v.$z-index-fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background-color: v.$color-primary;
+  color: v.$color-white;
+  border: none;
+  border-radius: v.$radius-full;
+  cursor: pointer;
+  box-shadow: v.$shadow-lg;
+  transition: all v.$transition-base;
+  animation: scroll-to-top-fade-in 0.3s ease-out;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    background-color: v.$color-primary-dark;
+    transform: translateY(-4px);
+    box-shadow: v.$shadow-xl;
+  }
+
+  &:active {
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid v.$color-secondary;
+    outline-offset: 2px;
+  }
+}
+
+@keyframes scroll-to-top-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: v.$breakpoint-sm) {
+  .scroll-to-top {
+    bottom: v.$spacing-lg;
+    right: v.$spacing-lg;
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
