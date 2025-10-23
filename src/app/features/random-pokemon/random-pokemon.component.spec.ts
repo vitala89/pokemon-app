@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { RandomPokemonComponent } from './random-pokemon.component';
 import { PokemonApiService } from '@app/core';
 import { Router } from '@angular/router';
@@ -49,6 +50,7 @@ describe('RandomPokemonComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RandomPokemonComponent],
       providers: [
+        provideZonelessChangeDetection(),
         { provide: PokemonApiService, useValue: mockPokemonService },
         { provide: Router, useValue: mockRouter },
       ],
@@ -62,32 +64,44 @@ describe('RandomPokemonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load random Pokemon on init', () => {
+  it('should load random Pokemon on init', (done) => {
     mockPokemonService.getPokemonDetails.and.returnValue(of(mockPokemon));
+    spyOn(component, 'getRandomEmoji').and.returnValue('🎲');
 
     fixture.detectChanges();
 
-    expect(mockPokemonService.getPokemonDetails).toHaveBeenCalled();
-    expect(component.pokemon()).toEqual(mockPokemon);
+    setTimeout(() => {
+      expect(mockPokemonService.getPokemonDetails).toHaveBeenCalled();
+      expect(component.pokemon()).toEqual(mockPokemon);
+      done();
+    }, 400);
   });
 
-  it('should generate new random Pokemon when button clicked', () => {
+  it('should generate new random Pokemon when button clicked', (done) => {
     mockPokemonService.getPokemonDetails.and.returnValue(of(mockPokemon));
+    spyOn(component, 'getRandomEmoji').and.returnValue('🎲');
     fixture.detectChanges();
 
-    mockPokemonService.getPokemonDetails.calls.reset();
+    setTimeout(() => {
+      mockPokemonService.getPokemonDetails.calls.reset();
 
-    component.generateRandomPokemon();
+      component.generateRandomPokemon();
 
-    expect(component.isGenerating()).toBe(true);
+      expect(component.isGenerating()).toBe(true);
+      done();
+    }, 400);
   });
 
-  it('should handle error state', () => {
+  it('should handle error state', (done) => {
     mockPokemonService.getPokemonDetails.and.returnValue(throwError(() => ({ message: 'Error' })));
+    spyOn(component, 'getRandomEmoji').and.returnValue('🎲');
 
     fixture.detectChanges();
 
-    expect(component.error()).toBe('Error');
+    setTimeout(() => {
+      expect(component.error()).toBe('Error');
+      done();
+    }, 400);
   });
 
   it('should navigate to full details', () => {
@@ -117,16 +131,20 @@ describe('RandomPokemonComponent', () => {
     expect(['🎲', '✨', '🎯', '🎰', '🔮', '🎪']).toContain(emoji);
   });
 
-  it('should retry on error', () => {
+  it('should retry on error', (done) => {
     mockPokemonService.getPokemonDetails.and.returnValue(throwError(() => ({ message: 'Error' })));
+    spyOn(component, 'getRandomEmoji').and.returnValue('🎲');
     fixture.detectChanges();
 
-    mockPokemonService.getPokemonDetails.calls.reset();
-    mockPokemonService.getPokemonDetails.and.returnValue(of(mockPokemon));
+    setTimeout(() => {
+      mockPokemonService.getPokemonDetails.calls.reset();
+      mockPokemonService.getPokemonDetails.and.returnValue(of(mockPokemon));
 
-    component.retryLoad();
+      component.retryLoad();
 
-    expect(component.isGenerating()).toBe(true);
+      expect(component.isGenerating()).toBe(true);
+      done();
+    }, 400);
   });
 
   it('should have correct initial state', () => {
