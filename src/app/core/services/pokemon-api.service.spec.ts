@@ -270,13 +270,22 @@ describe('PokemonApiService', () => {
   });
 
   describe('resetError', () => {
-    it('should reset error state', () => {
-      (service as any).errorState.set('Some error');
-      expect(service.error()).toBe('Some error');
+    it('should reset error state', (done) => {
+      service.getPokemonDetails(999999).subscribe({
+        error: () => {
+          expect(service.error()).toBeTruthy();
 
-      service.resetError();
+          service.resetError();
 
-      expect(service.error()).toBeNull();
+          expect(service.error()).toBeNull();
+          done();
+        },
+      });
+
+      const req = httpMock.expectOne(
+        `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.POKEMON}/999999`,
+      );
+      req.flush('Not found', { status: 404, statusText: 'Not Found' });
     });
   });
 });
