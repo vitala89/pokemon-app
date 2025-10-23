@@ -13,10 +13,12 @@
       <div class="pokemon-card__skeleton"></div>
     } @else {
       <img
-        [src]="pokemon().imageUrl"
+        [ngSrc]="pokemon().imageUrl"
         [alt]="(pokemon().name | formatPokemonName) + ' artwork'"
         class="pokemon-card__image"
-        (error)="onImageError($event)"
+        appImageFallback
+        fill
+        decoding="async"
         loading="lazy"
       />
     }

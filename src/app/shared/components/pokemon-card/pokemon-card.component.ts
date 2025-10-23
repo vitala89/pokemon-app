@@ -1,6 +1,7 @@
 import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormatPokemonNamePipe } from '../../pipes';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { ImageFallbackDirective } from '@app/shared/directives';
+import { FormatPokemonNamePipe } from '@app/shared/pipes';
 
 export interface PokemonCardData {
   id: number;
@@ -11,7 +12,7 @@ export interface PokemonCardData {
 @Component({
   selector: 'app-pokemon-card',
   standalone: true,
-  imports: [CommonModule, FormatPokemonNamePipe],
+  imports: [CommonModule, FormatPokemonNamePipe, ImageFallbackDirective, NgOptimizedImage],
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.scss'],
 })
@@ -25,11 +26,6 @@ export class PokemonCardComponent {
     if (!this.loading()) {
       this.cardClick.emit(this.pokemon());
     }
-  }
-
-  onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.src = '/assets/images/pokemon-placeholder.svg';
   }
 
   onKeyDown(event: KeyboardEvent): void {
