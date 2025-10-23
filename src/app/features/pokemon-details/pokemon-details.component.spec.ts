@@ -209,29 +209,6 @@ describe('PokemonDetailsComponent', () => {
     expect(component.nextId()).toBeNull();
   });
 
-  it('should format height correctly', () => {
-    const result = component.formatHeight(4);
-    expect(result).toBe('0.4 m');
-  });
-
-  it('should format weight correctly', () => {
-    const result = component.formatWeight(60);
-    expect(result).toBe('6.0 kg');
-  });
-
-  it('should get stat name correctly', () => {
-    expect(component.getStatName('hp')).toBe('HP');
-    expect(component.getStatName('attack')).toBe('Attack');
-    expect(component.getStatName('special-attack')).toBe('Sp. Attack');
-    expect(component.getStatName('special-defense')).toBe('Sp. Defense');
-  });
-
-  it('should calculate stat percentage correctly', () => {
-    expect(component.getStatPercentage(50)).toBe(20); // 50/255 * 100 ≈ 20
-    expect(component.getStatPercentage(255)).toBe(100);
-    expect(component.getStatPercentage(0)).toBe(0);
-  });
-
   it('should display Pokemon types', () => {
     mockPokemonService.getPokemonDetails.and.returnValue(of(mockPokemon));
 
@@ -290,16 +267,6 @@ describe('PokemonDetailsComponent', () => {
     component.pokemon.set(mockPokemon);
 
     expect(component.hasData()).toBe(true);
-  });
-
-  it('should handle image error', () => {
-    const img = document.createElement('img');
-    const event = new Event('error');
-    Object.defineProperty(event, 'target', { value: img, enumerable: true });
-
-    component.onImageError(event);
-
-    expect(img.src).toContain('pokemon-placeholder.svg');
   });
 
   it('should reload Pokemon when route params change', () => {

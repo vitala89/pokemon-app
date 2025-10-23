@@ -94,10 +94,12 @@
         <div class="pokemon-details__image-section">
           <div class="pokemon-details__image-wrapper">
             <img
-              [src]="poke.id | pokemonImage"
+              [ngSrc]="poke.id | pokemonImage"
               [alt]="(poke.name | formatPokemonName) + ' artwork'"
               class="pokemon-details__image"
-              (error)="onImageError($event)"
+              appImageFallback
+              fill
+              decoding="async"
             />
           </div>
           <span class="pokemon-details__id">#{{ poke.id.toString().padStart(3, '0') }}</span>
@@ -127,13 +129,13 @@
             <div class="pokemon-details__physical-item">
               <span class="pokemon-details__physical-label">Height</span>
               <span class="pokemon-details__physical-value">
-                {{ formatHeight(poke.height) }}
+                {{ poke.height | pokemonHeight }}
               </span>
             </div>
             <div class="pokemon-details__physical-item">
               <span class="pokemon-details__physical-label">Weight</span>
               <span class="pokemon-details__physical-value">
-                {{ formatWeight(poke.weight) }}
+                {{ poke.weight | pokemonWeight }}
               </span>
             </div>
           </section>
@@ -146,13 +148,13 @@
                 @for (stat of poke.stats; track stat.stat.name) {
                   <div class="pokemon-details__stat">
                     <span class="pokemon-details__stat-name">
-                      {{ getStatName(stat.stat.name) }}
+                      {{ stat.stat.name | pokemonStatName }}
                     </span>
                     <span class="pokemon-details__stat-value">{{ stat.base_stat }}</span>
                     <div class="pokemon-details__stat-bar">
                       <div
                         class="pokemon-details__stat-fill"
-                        [style.width.%]="getStatPercentage(stat.base_stat)"
+                        [style.width.%]="stat.base_stat | pokemonStatPercentage"
                       ></div>
                     </div>
                   </div>

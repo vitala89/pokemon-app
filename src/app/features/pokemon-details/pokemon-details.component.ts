@@ -1,8 +1,17 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingSpinnerComponent, ErrorMessageComponent } from '@app/shared';
-import { FormatPokemonNamePipe, PokemonImagePipe, PokemonTypeColorPipe } from '@app/shared';
+import {
+  FormatPokemonNamePipe,
+  PokemonImagePipe,
+  PokemonTypeColorPipe,
+  PokemonHeightPipe,
+  PokemonWeightPipe,
+  PokemonStatNamePipe,
+  PokemonStatPercentagePipe,
+} from '@app/shared';
+import { ImageFallbackDirective } from '@app/shared';
 import { PokemonApiService } from '@app/core';
 import { Pokemon } from '@app/core';
 import { ROUTE_PATHS } from '@app/core';
@@ -17,6 +26,12 @@ import { ROUTE_PATHS } from '@app/core';
     FormatPokemonNamePipe,
     PokemonImagePipe,
     PokemonTypeColorPipe,
+    PokemonHeightPipe,
+    PokemonWeightPipe,
+    PokemonStatNamePipe,
+    PokemonStatPercentagePipe,
+    ImageFallbackDirective,
+    NgOptimizedImage,
   ],
   templateUrl: './pokemon-details.component.html',
   styleUrls: ['./pokemon-details.component.scss'],
@@ -93,37 +108,5 @@ export class PokemonDetailsComponent implements OnInit {
 
   goBack(): void {
     void this.router.navigate([this.routes.POKEMON_LIST]);
-  }
-
-  onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.src = '/assets/images/pokemon-placeholder.svg';
-  }
-
-  formatHeight(height: number): string {
-    return `${(height / 10).toFixed(1)} m`;
-  }
-
-  formatWeight(weight: number): string {
-    return `${(weight / 10).toFixed(1)} kg`;
-  }
-
-  getStatName(name: string): string {
-    const statNames: Record<string, string> = {
-      hp: 'HP',
-      attack: 'Attack',
-      defense: 'Defense',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'special-attack': 'Sp. Attack',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'special-defense': 'Sp. Defense',
-      speed: 'Speed',
-    };
-    return statNames[name] ?? name;
-  }
-
-  getStatPercentage(baseStat: number): number {
-    const maxStat = 255;
-    return Math.round((baseStat / maxStat) * 100);
   }
 }
