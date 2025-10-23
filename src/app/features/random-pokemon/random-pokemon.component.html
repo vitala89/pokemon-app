@@ -84,10 +84,12 @@
       <div class="random-pokemon__image-section">
         <div class="random-pokemon__image-wrapper">
           <img
-            [src]="poke.id | pokemonImage"
+            [ngSrc]="poke.id | pokemonImage"
             [alt]="(poke.name | formatPokemonName) + ' artwork'"
             class="random-pokemon__image"
-            (error)="onImageError($event)"
+            appImageFallback
+            fill
+            decoding="async"
           />
         </div>
         <span class="random-pokemon__id">#{{ poke.id.toString().padStart(3, '0') }}</span>
@@ -115,12 +117,12 @@
         <div class="random-pokemon__physical">
           <div class="random-pokemon__physical-item">
             <span class="random-pokemon__physical-label">Height</span>
-            <span class="random-pokemon__physical-value">{{ formatHeight(poke.height) }}</span>
+            <span class="random-pokemon__physical-value">{{ poke.height | pokemonHeight }}</span>
           </div>
           <div class="random-pokemon__physical-divider"></div>
           <div class="random-pokemon__physical-item">
             <span class="random-pokemon__physical-label">Weight</span>
-            <span class="random-pokemon__physical-value">{{ formatWeight(poke.weight) }}</span>
+            <span class="random-pokemon__physical-value">{{ poke.weight | pokemonWeight }}</span>
           </div>
         </div>
 
@@ -131,11 +133,13 @@
             <div class="random-pokemon__stats-grid">
               @for (stat of poke.stats; track stat.stat.name) {
                 <div class="random-pokemon__stat-mini">
-                  <span class="random-pokemon__stat-label">{{ getStatName(stat.stat.name) }}</span>
+                  <span class="random-pokemon__stat-label">
+                    {{ stat.stat.name | pokemonStatName }}
+                  </span>
                   <div class="random-pokemon__stat-bar">
                     <div
                       class="random-pokemon__stat-fill"
-                      [style.width.%]="getStatPercentage(stat.base_stat)"
+                      [style.width.%]="stat.base_stat | pokemonStatPercentage"
                     ></div>
                   </div>
                   <span class="random-pokemon__stat-value">{{ stat.base_stat }}</span>

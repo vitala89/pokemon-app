@@ -118,14 +118,6 @@ describe('RandomPokemonComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/pokemon']);
   });
 
-  it('should format height correctly', () => {
-    expect(component.formatHeight(4)).toBe('0.4 m');
-  });
-
-  it('should format weight correctly', () => {
-    expect(component.formatWeight(60)).toBe('6.0 kg');
-  });
-
   it('should get random emoji', () => {
     const emoji = component.getRandomEmoji();
     expect(['🎲', '✨', '🎯', '🎰', '🔮', '🎪']).toContain(emoji);

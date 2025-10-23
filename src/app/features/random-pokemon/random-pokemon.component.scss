@@ -168,6 +168,9 @@
 }
 
 .random-pokemon__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   max-width: 300px;
   margin: 0 auto v.$spacing-lg;
   animation: float-bounce 3s ease-in-out infinite;
@@ -184,8 +187,11 @@
 }
 
 .random-pokemon__image {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
   filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3));
 }
 
