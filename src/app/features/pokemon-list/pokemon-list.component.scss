@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .pokemon-list {
   width: 100%;
@@ -49,18 +50,7 @@
 }
 
 .pokemon-list__toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: v.$spacing-sm;
-  padding: v.$spacing-sm v.$spacing-md;
-  background-color: v.$color-white;
-  border: 2px solid v.$color-gray-300;
-  border-radius: v.$radius-lg;
-  font-size: v.$font-size-sm;
-  font-weight: v.$font-weight-medium;
-  color: v.$color-gray-700;
-  cursor: pointer;
-  transition: all v.$transition-base;
+  @include m.button-base();
 
   &:hover {
     border-color: v.$color-primary-light;
@@ -180,19 +170,11 @@
 }
 
 .pokemon-list__load-more-button {
-  display: inline-flex;
-  align-items: center;
-  gap: v.$spacing-sm;
-  padding: v.$spacing-md v.$spacing-xl;
-  background-color: v.$color-primary;
-  color: v.$color-white;
-  border: none;
-  border-radius: v.$radius-lg;
-  font-size: v.$font-size-base;
-  font-weight: v.$font-weight-semibold;
-  cursor: pointer;
-  transition: all v.$transition-base;
-  box-shadow: v.$shadow-md;
+  @include m.button-primary(
+    $padding: v.$spacing-md v.$spacing-xl,
+    $font-size: v.$font-size-base,
+    $shadow: v.$shadow-md
+  );
 
   &:hover:not(:disabled) {
     background-color: v.$color-primary-dark;

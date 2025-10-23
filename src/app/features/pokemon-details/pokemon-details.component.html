@@ -1,0 +1,187 @@
+<div class="pokemon-details">
+  <!-- Back Button -->
+  <div class="pokemon-details__header">
+    <button
+      type="button"
+      class="pokemon-details__back"
+      (click)="goBack()"
+      aria-label="Back to list"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Back to List</span>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="pokemon-details__loading">
+      <app-loading-spinner size="large" message="Loading Pokemon details..." />
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="pokemon-details__error">
+      <app-error-message
+        title="Failed to Load Pokemon"
+        [message]="error()!"
+        (retry)="retryLoad()"
+      />
+    </div>
+  }
+
+  <!-- Pokemon Details Content -->
+  @if (hasData() && pokemon(); as poke) {
+    <div class="pokemon-details__content">
+      <!-- Navigation -->
+      <nav class="pokemon-details__nav">
+        <button
+          type="button"
+          class="pokemon-details__nav-button pokemon-details__nav-button--prev"
+          [disabled]="!previousId()"
+          (click)="goToPrevious()"
+          aria-label="Previous Pokemon"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Previous</span>
+        </button>
+
+        <button
+          type="button"
+          class="pokemon-details__nav-button pokemon-details__nav-button--next"
+          [disabled]="!nextId()"
+          (click)="goToNext()"
+          aria-label="Next Pokemon"
+        >
+          <span>Next</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Main Card -->
+      <article class="pokemon-details__card">
+        <!-- Image Section -->
+        <div class="pokemon-details__image-section">
+          <div class="pokemon-details__image-wrapper">
+            <img
+              [src]="poke.id | pokemonImage"
+              [alt]="(poke.name | formatPokemonName) + ' artwork'"
+              class="pokemon-details__image"
+              (error)="onImageError($event)"
+            />
+          </div>
+          <span class="pokemon-details__id">#{{ poke.id.toString().padStart(3, '0') }}</span>
+        </div>
+
+        <!-- Info Section -->
+        <div class="pokemon-details__info-section">
+          <!-- Header -->
+          <header class="pokemon-details__info-header">
+            <h1 class="pokemon-details__name">{{ poke.name | formatPokemonName }}</h1>
+
+            <!-- Types -->
+            <div class="pokemon-details__types">
+              @for (type of poke.types; track type.slot) {
+                <span
+                  class="pokemon-details__type-badge"
+                  [style.background-color]="type.type.name | pokemonTypeColor"
+                >
+                  {{ type.type.name }}
+                </span>
+              }
+            </div>
+          </header>
+
+          <!-- Physical Info -->
+          <section class="pokemon-details__physical">
+            <div class="pokemon-details__physical-item">
+              <span class="pokemon-details__physical-label">Height</span>
+              <span class="pokemon-details__physical-value">
+                {{ formatHeight(poke.height) }}
+              </span>
+            </div>
+            <div class="pokemon-details__physical-item">
+              <span class="pokemon-details__physical-label">Weight</span>
+              <span class="pokemon-details__physical-value">
+                {{ formatWeight(poke.weight) }}
+              </span>
+            </div>
+          </section>
+
+          <!-- Stats -->
+          @if (poke.stats && poke.stats.length > 0) {
+            <section class="pokemon-details__stats">
+              <h2 class="pokemon-details__section-title">Base Stats</h2>
+              <div class="pokemon-details__stats-list">
+                @for (stat of poke.stats; track stat.stat.name) {
+                  <div class="pokemon-details__stat">
+                    <span class="pokemon-details__stat-name">
+                      {{ getStatName(stat.stat.name) }}
+                    </span>
+                    <span class="pokemon-details__stat-value">{{ stat.base_stat }}</span>
+                    <div class="pokemon-details__stat-bar">
+                      <div
+                        class="pokemon-details__stat-fill"
+                        [style.width.%]="getStatPercentage(stat.base_stat)"
+                      ></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </section>
+          }
+
+          <!-- Abilities -->
+          @if (poke.abilities && poke.abilities.length > 0) {
+            <section class="pokemon-details__abilities">
+              <h2 class="pokemon-details__section-title">Abilities</h2>
+              <div class="pokemon-details__abilities-list">
+                @for (ability of poke.abilities; track ability.slot) {
+                  <span
+                    class="pokemon-details__ability-badge"
+                    [class.pokemon-details__ability-badge--hidden]="ability.is_hidden"
+                  >
+                    {{ ability.ability.name | formatPokemonName }}
+                    @if (ability.is_hidden) {
+                      <span class="pokemon-details__ability-tag">(Hidden)</span>
+                    }
+                  </span>
+                }
+              </div>
+            </section>
+          }
+        </div>
+      </article>
+    </div>
+  }
+</div>
