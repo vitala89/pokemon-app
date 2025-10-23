@@ -1,47 +1,186 @@
 <div class="app">
+  <!-- Header -->
   <header class="app__header">
-    <nav class="app__nav">
-      <a [routerLink]="routes.HOME" class="app__logo">
-        <span class="app__logo-text">Pokemon</span>
-      </a>
+    <nav class="app__nav" role="navigation" aria-label="Main navigation">
+      <div class="app__nav-container">
+        <!-- Logo -->
+        <a [routerLink]="routes.HOME" class="app__logo" (click)="scrollToTop()" aria-label="Home">
+          <span class="app__logo-text">Pokemon</span>
+        </a>
 
-      <ul class="app__menu">
-        <li class="app__menu-item">
-          <a
-            [routerLink]="routes.POKEMON_LIST"
-            routerLinkActive="app__menu-link--active"
-            class="app__menu-link"
-            [routerLinkActiveOptions]="{ exact: false }"
-          >
-            All Pokemon
-          </a>
-        </li>
-        <li class="app__menu-item">
-          <a
-            [routerLink]="routes.RANDOM"
-            routerLinkActive="app__menu-link--active"
-            class="app__menu-link"
-          >
-            Random
-          </a>
-        </li>
-      </ul>
+        <!-- Navigation Menu -->
+        <ul class="app__menu" role="menubar">
+          <li class="app__menu-item" role="none">
+            <a
+              [routerLink]="routes.POKEMON_LIST"
+              routerLinkActive="app__menu-link--active"
+              class="app__menu-link"
+              [routerLinkActiveOptions]="{ exact: false }"
+              role="menuitem"
+              aria-label="View all Pokemon"
+            >
+              <svg
+                class="app__menu-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>All Pokemon</span>
+            </a>
+          </li>
+
+          <li class="app__menu-item" role="none">
+            <a
+              [routerLink]="routes.RANDOM"
+              routerLinkActive="app__menu-link--active"
+              class="app__menu-link"
+              role="menuitem"
+              aria-label="Generate random Pokemon"
+            >
+              <svg
+                class="app__menu-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="8" width="4" height="4"></rect>
+                <rect x="3" y="16" width="4" height="4"></rect>
+                <rect x="10" y="8" width="4" height="4"></rect>
+                <rect x="10" y="16" width="4" height="4"></rect>
+                <rect x="17" y="8" width="4" height="4"></rect>
+                <rect x="17" y="16" width="4" height="4"></rect>
+              </svg>
+              <span>Random</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
   </header>
 
-  <main class="app__main">
+  <!-- Main Content -->
+  <main class="app__main" role="main" id="main-content">
     <router-outlet />
   </main>
 
-  <footer class="app__footer">
-    <p class="app__footer-text">
-      <a
-        href="https://pokeapi.co"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="app__footer-link"
-        >PokeAPI</a
-      >
-    </p>
+  <!-- Footer -->
+  <footer class="app__footer" role="contentinfo">
+    <div class="app__footer-container">
+      <!-- Footer Content -->
+      <div class="app__footer-content">
+        <!-- About Section -->
+        <div class="app__footer-section">
+          <h3 class="app__footer-title">About</h3>
+          <p class="app__footer-text">
+            A modern Pokedex built with Angular {{ appVersion }}. Explore all Pokemon from
+            generations 1-9.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="app__footer-section">
+          <h3 class="app__footer-title">Quick Links</h3>
+          <ul class="app__footer-links">
+            <li>
+              <a [routerLink]="routes.POKEMON_LIST" class="app__footer-link">Browse All Pokemon</a>
+            </li>
+            <li>
+              <a [routerLink]="routes.RANDOM" class="app__footer-link">Random Pokemon</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="app__footer-section">
+          <h3 class="app__footer-title">Resources</h3>
+          <ul class="app__footer-links">
+            <li>
+              <a
+                href="https://pokeapi.co"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="app__footer-link"
+                aria-label="Visit PokeAPI documentation (opens in new tab)"
+              >
+                PokeAPI
+                <svg
+                  class="app__footer-link-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://angular.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="app__footer-link"
+                aria-label="Visit Angular documentation (opens in new tab)"
+              >
+                Angular
+                <svg
+                  class="app__footer-link-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="app__footer-bottom">
+        <p class="app__footer-copyright">© {{ currentYear }} Pokedex. Made by Vitalii Kasap.</p>
+        <p class="app__footer-attribution">
+          Data provided by
+          <a
+            href="https://pokeapi.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="app__footer-link"
+            aria-label="PokeAPI (opens in new tab)"
+          >
+            PokeAPI
+          </a>
+        </p>
+      </div>
+    </div>
   </footer>
 </div>

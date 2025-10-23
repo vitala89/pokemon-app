@@ -7,8 +7,14 @@ import { ROUTE_PATHS } from '@app/core';
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   readonly routes = ROUTE_PATHS;
+  readonly currentYear = new Date().getFullYear();
+  readonly appVersion = '1.0.0';
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
