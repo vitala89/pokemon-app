@@ -103,11 +103,32 @@ export default [
     }
   },
 
-// Allow snake_case and hyphens in API constants
+  // Allow snake_case and hyphens in API constants
   {
     files: ['src/app/core/constants/**/*.ts'],
     rules: {
       '@typescript-eslint/naming-convention': 'off'
+    }
+  },
+
+  {
+    files: ['**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off'
+    }
+  },
+
+  {
+    files: ['**/directives/**/*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {selector: 'default', format: ['camelCase'], leadingUnderscore: 'allow', trailingUnderscore: 'allow'},
+        {selector: 'variable', format: ['camelCase', 'UPPER_CASE'], leadingUnderscore: 'allow'},
+        {selector: 'typeLike', format: ['PascalCase']},
+        {selector: 'enumMember', format: ['PascalCase', 'UPPER_CASE']},
+        {selector: 'objectLiteralProperty', format: null, filter: {regex: '^\\[', match: true}}
+      ],
     }
   },
 

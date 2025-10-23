@@ -1,39 +1,118 @@
 <div class="pokemon-list">
-  <h1>Pokemon List</h1>
+  <!-- Header -->
+  <header class="pokemon-list__header">
+    <h1 class="pokemon-list__title">Pokemon List</h1>
+    <p class="pokemon-list__subtitle">Discover all Pokemon from generations 1-9</p>
 
-  <!-- Pokemon Cards Demo -->
-  <div class="demo-section">
-    <h3>Pokemon Cards</h3>
-    <div class="pokemon-grid">
-      @for (pokemon of mockPokemon; track pokemon.id) {
-        <app-pokemon-card [pokemon]="pokemon" (cardClick)="handleCardClick($event)" />
+    <!-- Infinite Scroll Toggle -->
+    <div class="pokemon-list__controls">
+      <button
+        type="button"
+        class="pokemon-list__toggle"
+        (click)="toggleInfiniteScroll()"
+        [class.pokemon-list__toggle--active]="useInfiniteScroll()"
+      >
+        <span class="pokemon-list__toggle-icon">
+          @if (useInfiniteScroll()) {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          }
+        </span>
+        <span>Infinite Scroll</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Loading State (Initial) -->
+  @if (isLoading() && pokemonList().length === 0) {
+    <div class="pokemon-list__loading">
+      <app-loading-spinner size="large" message="Loading Pokemon..." />
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="pokemon-list__error">
+      <app-error-message
+        title="Failed to Load Pokemon"
+        [message]="error()!"
+        (retry)="retryLoad()"
+      />
+    </div>
+  }
+
+  <!-- Pokemon Grid -->
+  @if (pokemonList().length > 0) {
+    <div
+      class="pokemon-list__grid"
+      appInfiniteScroll
+      [enabled]="useInfiniteScroll() && canLoadMore()"
+      [threshold]="400"
+      (scrolled)="onScrolled()"
+    >
+      @for (pokemon of pokemonList(); track trackByPokemonId($index, pokemon)) {
+        <app-pokemon-card [pokemon]="pokemon" (cardClick)="viewPokemonDetails($event)" />
       }
     </div>
-  </div>
 
-  <!-- Loading Pokemon Cards -->
-  <div class="demo-section">
-    <h3>Pokemon Cards - Loading State</h3>
-    <div class="pokemon-grid">
-      @for (item of [1, 2, 3]; track item) {
-        <app-pokemon-card [pokemon]="loadingPokemon" [loading]="true" />
-      }
+    <!-- Stats -->
+    <div class="pokemon-list__stats">
+      <p class="pokemon-list__stats-text">
+        Showing <strong>{{ pokemonList().length }}</strong> of
+        <strong>{{ totalPokemon }}</strong> Pokemon
+      </p>
     </div>
-  </div>
 
-  <!-- Loading Spinner Demo -->
-  <div class="demo-section">
-    <h3>Loading Spinner - Medium (Default)</h3>
-    <app-loading-spinner message="Loading Pokemon..." />
-  </div>
+    <!-- Load More Section -->
+    @if (showLoadMore()) {
+      <div class="pokemon-list__load-more">
+        <button
+          type="button"
+          class="pokemon-list__load-more-button"
+          (click)="loadMore()"
+          [disabled]="isLoading()"
+        >
+          @if (isLoading()) {
+            <span class="pokemon-list__load-more-spinner"></span>
+          }
+          <span>Load More Pokemon</span>
+        </button>
+      </div>
+    }
 
-  <!-- Error Message Demo -->
-  <div class="demo-section">
-    <h3>Error Message - With Retry</h3>
-    <app-error-message
-      title="Failed to Load Pokemon"
-      message="Unable to fetch Pokemon data. Please check your internet connection and try again."
-      (retry)="handleRetry()"
-    />
-  </div>
+    <!-- End Message -->
+    @if (!hasMore() && !isLoading()) {
+      <div class="pokemon-list__end-message">
+        <p>You've seen all Pokemon! 🎉</p>
+      </div>
+    }
+
+    <!-- Loading More Indicator -->
+    @if (isLoading() && pokemonList().length > 0) {
+      <div class="pokemon-list__loading-more">
+        <app-loading-spinner size="medium" message="Loading more Pokemon..." />
+      </div>
+    }
+  }
+
+  <!-- Empty State -->
+  @if (isEmpty()) {
+    <div class="pokemon-list__empty">
+      <div class="pokemon-list__empty-content">
+        <span class="pokemon-list__empty-icon">🔍</span>
+        <h2 class="pokemon-list__empty-title">No Pokemon Found</h2>
+        <p class="pokemon-list__empty-text">We couldn't find any Pokemon. Please try again.</p>
+        <button type="button" class="pokemon-list__empty-button" (click)="retryLoad()">
+          Reload
+        </button>
+      </div>
+    </div>
+  }
 </div>
