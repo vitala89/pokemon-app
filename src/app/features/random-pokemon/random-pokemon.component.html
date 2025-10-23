@@ -1,0 +1,191 @@
+<div class="random-pokemon">
+  <!-- Header -->
+  <header class="random-pokemon__header">
+    <h1 class="random-pokemon__title">
+      <span class="random-pokemon__title-emoji">{{ getRandomEmoji() }}</span>
+      Random Pokemon
+    </h1>
+    <p class="random-pokemon__subtitle">Discover a surprise Pokemon from all generations</p>
+  </header>
+
+  <!-- Actions -->
+  <div class="random-pokemon__actions">
+    <button
+      type="button"
+      class="random-pokemon__button random-pokemon__button--primary"
+      (click)="generateRandomPokemon()"
+      [disabled]="isLoading()"
+      aria-label="Generate random Pokemon"
+    >
+      @if (isGenerating()) {
+        <span class="random-pokemon__button-spinner"></span>
+      } @else {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+        </svg>
+      }
+      <span>{{ isGenerating() ? 'Generating...' : 'Generate Random' }}</span>
+    </button>
+
+    <button
+      type="button"
+      class="random-pokemon__button random-pokemon__button--secondary"
+      (click)="goToList()"
+      aria-label="Back to list"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <span>View All</span>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading() && !pokemon()) {
+    <div class="random-pokemon__loading">
+      <app-loading-spinner size="large" message="Finding a Pokemon..." />
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="random-pokemon__error">
+      <app-error-message
+        title="Failed to Load Random Pokemon"
+        [message]="error()!"
+        (retry)="retryLoad()"
+      />
+    </div>
+  }
+
+  <!-- Pokemon Card -->
+  @if (hasData() && pokemon(); as poke) {
+    <article class="random-pokemon__card">
+      <!-- Image Section -->
+      <div class="random-pokemon__image-section">
+        <div class="random-pokemon__image-wrapper">
+          <img
+            [src]="poke.id | pokemonImage"
+            [alt]="(poke.name | formatPokemonName) + ' artwork'"
+            class="random-pokemon__image"
+            (error)="onImageError($event)"
+          />
+        </div>
+        <span class="random-pokemon__id">#{{ poke.id.toString().padStart(3, '0') }}</span>
+      </div>
+
+      <!-- Info Section -->
+      <div class="random-pokemon__info">
+        <!-- Name & Types -->
+        <div class="random-pokemon__header-info">
+          <h2 class="random-pokemon__name">{{ poke.name | formatPokemonName }}</h2>
+
+          <div class="random-pokemon__types">
+            @for (type of poke.types; track type.slot) {
+              <span
+                class="random-pokemon__type-badge"
+                [style.background-color]="type.type.name | pokemonTypeColor"
+              >
+                {{ type.type.name }}
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Physical Info -->
+        <div class="random-pokemon__physical">
+          <div class="random-pokemon__physical-item">
+            <span class="random-pokemon__physical-label">Height</span>
+            <span class="random-pokemon__physical-value">{{ formatHeight(poke.height) }}</span>
+          </div>
+          <div class="random-pokemon__physical-divider"></div>
+          <div class="random-pokemon__physical-item">
+            <span class="random-pokemon__physical-label">Weight</span>
+            <span class="random-pokemon__physical-value">{{ formatWeight(poke.weight) }}</span>
+          </div>
+        </div>
+
+        <!-- Stats Preview -->
+        @if (poke.stats && poke.stats.length > 0) {
+          <div class="random-pokemon__stats-preview">
+            <h3 class="random-pokemon__section-title">Base Stats</h3>
+            <div class="random-pokemon__stats-grid">
+              @for (stat of poke.stats; track stat.stat.name) {
+                <div class="random-pokemon__stat-mini">
+                  <span class="random-pokemon__stat-label">{{ getStatName(stat.stat.name) }}</span>
+                  <div class="random-pokemon__stat-bar">
+                    <div
+                      class="random-pokemon__stat-fill"
+                      [style.width.%]="getStatPercentage(stat.base_stat)"
+                    ></div>
+                  </div>
+                  <span class="random-pokemon__stat-value">{{ stat.base_stat }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Abilities Preview -->
+        @if (poke.abilities && poke.abilities.length > 0) {
+          <div class="random-pokemon__abilities">
+            <h3 class="random-pokemon__section-title">Abilities</h3>
+            <div class="random-pokemon__abilities-list">
+              @for (ability of poke.abilities; track ability.slot) {
+                <span
+                  class="random-pokemon__ability-badge"
+                  [class.random-pokemon__ability-badge--hidden]="ability.is_hidden"
+                >
+                  {{ ability.ability.name | formatPokemonName }}
+                  @if (ability.is_hidden) {
+                    <span class="random-pokemon__ability-tag">(Hidden)</span>
+                  }
+                </span>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- View Details Button -->
+        <button
+          type="button"
+          class="random-pokemon__view-details"
+          (click)="viewFullDetails()"
+          aria-label="View full Pokemon details"
+        >
+          View Full Details
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </article>
+  }
+</div>
