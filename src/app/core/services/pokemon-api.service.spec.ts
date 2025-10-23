@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { PokemonApiService } from '@app/core';
 import { CacheService } from '@app/core';
@@ -51,8 +52,14 @@ describe('PokemonApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [provideZonelessChangeDetection(), PokemonApiService, CacheService, LoggerService],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        PokemonApiService,
+        CacheService,
+        LoggerService,
+      ],
     });
 
     service = TestBed.inject(PokemonApiService);
@@ -264,7 +271,7 @@ describe('PokemonApiService', () => {
 
   describe('resetError', () => {
     it('should reset error state', () => {
-      service.errorState.set('Some error');
+      (service as any).errorState.set('Some error');
       expect(service.error()).toBe('Some error');
 
       service.resetError();
